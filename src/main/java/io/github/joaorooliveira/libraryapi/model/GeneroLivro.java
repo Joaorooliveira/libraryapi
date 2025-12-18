@@ -3,7 +3,7 @@ package io.github.joaorooliveira.libraryapi.model;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public enum Genero {
+public enum GeneroLivro {
 
     FICCAO,
     FANTASIA,
