@@ -95,7 +95,7 @@ public class AutorRepositoryTest {
         livro.setTitulo("O Roubo na casa assombrada");
         livro.setDataPublicacao(LocalDate.of(1999, 1, 2));
         livro.setAutor(autor);
-        
+
         Livro livro2 = new Livro();
         livro2.setIsbn("2137-9999");
         livro2.setPreco(BigDecimal.valueOf(650));
@@ -110,5 +110,16 @@ public class AutorRepositoryTest {
 
         repository.save(autor);
         livroRepository.saveAll(autor.getLivros());
+    }
+
+    @Test
+    void listarLivrosAutor() {
+        var id = UUID.fromString("533e4e99-0851-4466-bfe7-58ee2f179cab");
+        var autor = repository.findById(id).get();
+
+        //buscar os livros do autor
+        List<Livro> livrosLista = livroRepository.findByAutor(autor);
+        autor.setLivros(livrosLista);
+        autor.getLivros().forEach(System.out::println);
     }
 }
