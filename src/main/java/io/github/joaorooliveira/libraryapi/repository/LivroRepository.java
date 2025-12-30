@@ -1,9 +1,11 @@
 package io.github.joaorooliveira.libraryapi.repository;
 
 import io.github.joaorooliveira.libraryapi.model.Autor;
+import io.github.joaorooliveira.libraryapi.model.GeneroLivro;
 import io.github.joaorooliveira.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,4 +49,27 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
      */
     @Query("select l.autor from Livro l join l.autor a")
     List<Autor> listarAutoresDosLivros();
+
+    //select distinct l.titulo from livro l
+    @Query("select distinct l.titulo from Livro l")
+    List<String> listarNomesDiferentesLivros();
+
+    @Query("""
+            select l.genero
+            from Livro l
+            join l.autor a
+            where a.nacionalidade = 'Brasileira'
+            order by l.genero
+            """)
+    List<String> listarGenerosAutoresBrasileiros();
+
+    // named parameters -> parametros nomeados
+    @Query(" select l from Livro l where l.genero = :genero order by :paramOrdenacao ")
+    List<Livro> findByGenero(@Param("genero") GeneroLivro genero,
+                             @Param("paramOrdenacao") String paramOrdenacao);
+
+    // positional parameters -> parametros posicionais
+    @Query(" select l from Livro l where l.genero = ?1 order by ?2 ")
+    List<Livro> findByGeneroPositionalParameters(GeneroLivro genero, String paramOrdenacao);
+
 }
