@@ -111,6 +111,19 @@ class LivroRepositoryTest {
         var livros = repository.findByTituloAndPreco(tituloPesquisa, preco);
         livros.forEach(System.out::println);
     }
-    
+
+
+    @Test
+    void listarLivrosComQueryJPQL() {
+        var livros = repository.listarTodosOrdenadoPorTituloEPreco();
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    void listarAutoresDosLivros() {
+        var livros = repository.listarAutoresDosLivros();
+        livros.forEach(System.out::println);
+    }
+
 
 }
