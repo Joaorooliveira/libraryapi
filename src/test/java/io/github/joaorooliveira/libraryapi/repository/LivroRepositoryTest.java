@@ -92,4 +92,25 @@ class LivroRepositoryTest {
         System.out.println(livro.getAutor().getNome());
     }
 
+    @Test
+    void pesquisaPorTituloTest() {
+        var livros = repository.findByTitulo("O Roubo na casa assombrada");
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorIsbnTest() {
+        var livros = repository.findByIsbn("2131-2129");
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorTituloEPrecoTest() {
+        var preco = BigDecimal.valueOf(204.00);
+        var tituloPesquisa = "O Roubo na casa assombrada";
+        var livros = repository.findByTituloAndPreco(tituloPesquisa, preco);
+        livros.forEach(System.out::println);
+    }
+    
+
 }
