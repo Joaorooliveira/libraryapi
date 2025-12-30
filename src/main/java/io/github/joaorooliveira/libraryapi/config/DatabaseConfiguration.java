@@ -31,7 +31,7 @@ public class DatabaseConfiguration {
         return ds;
     }
 
-    //Configuracao Hikari
+    // Configuracao Hikari
     @Bean
     public DataSource hikariDataSource() {
         HikariConfig config = new HikariConfig();
