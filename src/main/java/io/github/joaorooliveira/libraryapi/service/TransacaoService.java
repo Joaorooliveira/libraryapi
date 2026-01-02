@@ -1,4 +1,4 @@
-package io.github.joaorooliveira.libraryapi;
+package io.github.joaorooliveira.libraryapi.service;
 
 import io.github.joaorooliveira.libraryapi.model.Autor;
 import io.github.joaorooliveira.libraryapi.model.GeneroLivro;
