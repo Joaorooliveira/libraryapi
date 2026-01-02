@@ -1,6 +1,6 @@
 package io.github.joaorooliveira.libraryapi.repository;
 
-import io.github.joaorooliveira.libraryapi.TransacaoService;
+import io.github.joaorooliveira.libraryapi.service.TransacaoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
