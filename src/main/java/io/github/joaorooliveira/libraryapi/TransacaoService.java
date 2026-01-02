@@ -24,7 +24,7 @@ public class TransacaoService {
 
 
     public void atualizacaoSemAtualizar() {
-        var livro = livroRepository.findById(UUID.fromString(""))
+        var livro = livroRepository.findById(UUID.fromString(""));
     }
 
     @Transactional
@@ -45,7 +45,7 @@ public class TransacaoService {
         livro.setGenero(GeneroLivro.FICCAO);
         livro.setTitulo("Teste Livro do Francisco");
         livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
-        
+
         livro.setAutor(autor);
 
         livroRepository.save(livro);
