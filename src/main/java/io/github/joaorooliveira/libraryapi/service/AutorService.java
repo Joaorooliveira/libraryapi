@@ -24,6 +24,13 @@ public class AutorService {
         return autorRepository.save(autor);
     }
 
+    public void atualizar(Autor autor) {
+        if (autor.getId() == null) {
+            throw new IllegalArgumentException("Para atualizar, e necessario que o autor ja esteja salvo na base");
+        }
+        autorRepository.save(autor);
+    }
+
 //    public AutorDTO buscarAutor(UUID id) {
 //        var autor = autorRepository.findById(id).orElseThrow(()
 //                -> new EntityNotFoundException("Autor não encontrado com id: " + id));
@@ -62,4 +69,5 @@ public class AutorService {
             return autorRepository.findAll();
         }
     }
+
 }
