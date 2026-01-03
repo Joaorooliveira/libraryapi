@@ -24,6 +24,7 @@ public class AutorController {
 
     @PostMapping
     public ResponseEntity<Void> salvar(@RequestBody AutorDTO autor) {
+        
         var autorEntidade = autor.mapearParaAutor();
         service.salvar(autorEntidade);
 
