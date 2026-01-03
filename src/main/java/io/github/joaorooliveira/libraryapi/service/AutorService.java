@@ -2,6 +2,7 @@ package io.github.joaorooliveira.libraryapi.service;
 
 import io.github.joaorooliveira.libraryapi.model.Autor;
 import io.github.joaorooliveira.libraryapi.repository.AutorRepository;
+import io.github.joaorooliveira.libraryapi.validador.AutorValidator;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,15 @@ public class AutorService {
 
     private final AutorRepository autorRepository;
 
-    public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver) {
+    private final AutorValidator validator;
+
+    public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver, AutorValidator validator) {
         this.autorRepository = autorRepository;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor) {
+        validator.validar(autor);
         return autorRepository.save(autor);
     }
 
@@ -26,6 +31,7 @@ public class AutorService {
         if (autor.getId() == null) {
             throw new IllegalArgumentException("Para atualizar, e necessario que o autor ja esteja salvo na base");
         }
+        validator.validar(autor);
         autorRepository.save(autor);
     }
 
@@ -67,5 +73,6 @@ public class AutorService {
             return autorRepository.findAll();
         }
     }
+
 
 }
