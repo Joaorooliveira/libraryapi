@@ -13,11 +13,9 @@ import java.util.UUID;
 public class AutorService {
 
     private final AutorRepository autorRepository;
-    private final ResourcePatternResolver resourcePatternResolver;
 
     public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver) {
         this.autorRepository = autorRepository;
-        this.resourcePatternResolver = resourcePatternResolver;
     }
 
     public Autor salvar(Autor autor) {
