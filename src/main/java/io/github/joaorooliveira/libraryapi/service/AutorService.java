@@ -1,7 +1,9 @@
 package io.github.joaorooliveira.libraryapi.service;
 
+import io.github.joaorooliveira.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.joaorooliveira.libraryapi.model.Autor;
 import io.github.joaorooliveira.libraryapi.repository.AutorRepository;
+import io.github.joaorooliveira.libraryapi.repository.LivroRepository;
 import io.github.joaorooliveira.libraryapi.validador.AutorValidator;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
@@ -14,11 +16,12 @@ import java.util.UUID;
 public class AutorService {
 
     private final AutorRepository autorRepository;
-
+    private final LivroRepository livroRepository;
     private final AutorValidator validator;
 
-    public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver, AutorValidator validator) {
+    public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver, LivroRepository livroRepository, AutorValidator validator) {
         this.autorRepository = autorRepository;
+        this.livroRepository = livroRepository;
         this.validator = validator;
     }
 
@@ -57,6 +60,10 @@ public class AutorService {
 //    }
 
     public void deletar(Autor autor) {
+        if (possuiLivro(autor)) {
+            throw new OperacaoNaoPermitidaException(
+                    "Nao e permitido excluir um Autor que possui livros cadastrados!");
+        }
         autorRepository.delete(autor);
     }
 
@@ -72,6 +79,10 @@ public class AutorService {
         } else {
             return autorRepository.findAll();
         }
+    }
+
+    public boolean possuiLivro(Autor autor) {
+        return livroRepository.existsByAutor(autor);
     }
 
 
