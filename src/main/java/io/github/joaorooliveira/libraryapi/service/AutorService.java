@@ -5,7 +5,7 @@ import io.github.joaorooliveira.libraryapi.model.Autor;
 import io.github.joaorooliveira.libraryapi.repository.AutorRepository;
 import io.github.joaorooliveira.libraryapi.repository.LivroRepository;
 import io.github.joaorooliveira.libraryapi.validador.AutorValidator;
-import org.springframework.core.io.support.ResourcePatternResolver;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,17 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AutorService {
 
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
     private final AutorValidator validator;
-
-    public AutorService(AutorRepository autorRepository, ResourcePatternResolver resourcePatternResolver, LivroRepository livroRepository, AutorValidator validator) {
-        this.autorRepository = autorRepository;
-        this.livroRepository = livroRepository;
-        this.validator = validator;
-    }
 
     public Autor salvar(Autor autor) {
         validator.validar(autor);
