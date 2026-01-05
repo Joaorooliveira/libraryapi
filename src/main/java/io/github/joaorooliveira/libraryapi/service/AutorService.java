@@ -33,27 +33,10 @@ public class AutorService {
         autorRepository.save(autor);
     }
 
-//    public AutorDTO buscarAutor(UUID id) {
-//        var autor = autorRepository.findById(id).orElseThrow(()
-//                -> new EntityNotFoundException("Autor não encontrado com id: " + id));
-//
-//        return new AutorDTO(
-//                autor.getId(),
-//                autor.getNome(),
-//                autor.getDataNascimento(),
-//                autor.getNacionalidade()
-//        );
-
     public Optional<Autor> obterPorId(UUID id) {
         return autorRepository.findById(id);
     }
-
-//    public void excluirAutor(UUID id) {
-//        var autor = autorRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException("Autor não encontrado com id: " + id));
-//        autorRepository.deleteById(id);
-//    }
-
+    
     public void deletar(Autor autor) {
         if (possuiLivro(autor)) {
             throw new OperacaoNaoPermitidaException(
