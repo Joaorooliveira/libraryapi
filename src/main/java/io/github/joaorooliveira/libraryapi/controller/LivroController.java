@@ -1,7 +1,17 @@
 package io.github.joaorooliveira.libraryapi.controller;
 
+import io.github.joaorooliveira.libraryapi.controller.dto.CadastroLivroDTO;
+import io.github.joaorooliveira.libraryapi.controller.dto.ErroResposta;
+import io.github.joaorooliveira.libraryapi.controller.mappers.LivroMapper;
+import io.github.joaorooliveira.libraryapi.exceptions.RegistroDuplicadoException;
+import io.github.joaorooliveira.libraryapi.model.Livro;
 import io.github.joaorooliveira.libraryapi.service.LivroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LivroController {
 
-    private final LivroService livroService;
-    
+    private final LivroService service;
+    private final LivroMapper mapper;
+
+
+    @PostMapping
+    public ResponseEntity<Object> salvar(
+            @RequestBody @Valid CadastroLivroDTO dto) {
+
+        try {
+            Livro livro = mapper.toEntity(dto);
+            service.salvar(livro);
+            return ResponseEntity.ok(livro);
+        } catch (RegistroDuplicadoException e) {
+            var erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(erroDTO);
+        }
+    }
 }
