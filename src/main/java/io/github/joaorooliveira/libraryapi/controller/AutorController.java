@@ -2,6 +2,7 @@ package io.github.joaorooliveira.libraryapi.controller;
 
 import io.github.joaorooliveira.libraryapi.controller.dto.AutorDTO;
 import io.github.joaorooliveira.libraryapi.controller.dto.ErroResposta;
+import io.github.joaorooliveira.libraryapi.controller.mappers.AutorMapper;
 import io.github.joaorooliveira.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.joaorooliveira.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.joaorooliveira.libraryapi.model.Autor;
@@ -24,19 +25,19 @@ import java.util.UUID;
 public class AutorController {
 
     private final AutorService service;
+    private final AutorMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO dto) {
 
         try {
-
-            var autorEntidade = autor.mapearParaAutor();
-            service.salvar(autorEntidade);
+            Autor autor = mapper.toEntity(dto);
+            service.salvar(autor);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(autorEntidade.getId())
+                    .buildAndExpand(autor.getId())
                     .toUri();
             return ResponseEntity.created(location).build();
         } catch (RegistroDuplicadoException e) {
@@ -48,17 +49,11 @@ public class AutorController {
     @GetMapping("/{id}")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
         var idAutor = UUID.fromString(id);
-        Optional<Autor> autorOptional = service.obterPorId(idAutor);
-        if (autorOptional.isPresent()) {
-            Autor autor = autorOptional.get();
-            AutorDTO dto = new AutorDTO(autor.getId(),
-                    autor.getNome(),
-                    autor.getDataNascimento(),
-                    autor.getNacionalidade());
-            return ResponseEntity.ok(dto);
-        }
-
-        return ResponseEntity.notFound().build();
+        return service.obterPorId(idAutor)
+                .map(autor -> {
+                    AutorDTO dto = mapper.toDTO(autor);
+                    return ResponseEntity.ok(dto);
+                }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -84,11 +79,9 @@ public class AutorController {
         List<Autor> resultado = service.pesquisaByExample(nome, nacionalidade);
         List<AutorDTO> lista = resultado
                 .stream()
-                .map(autor -> new AutorDTO(autor.getId(),
-                        autor.getNome(),
-                        autor.getDataNascimento(),
-                        autor.getNacionalidade()))
+                .map(mapper::toDTO)
                 .toList();
+
         return ResponseEntity.ok(lista);
     }
 
