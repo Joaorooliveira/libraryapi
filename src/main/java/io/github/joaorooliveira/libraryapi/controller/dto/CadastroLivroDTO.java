@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.ISBN;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public record CadastroLivroDTO(
 
         @NotBlank(message = "campo obrigatório")
-        @Size(min = 1, message = "campo fora do tamanho padrao")
+        @ISBN
         String isbn,
 
         @NotBlank(message = "campo obrigatório")
@@ -24,10 +25,8 @@ public record CadastroLivroDTO(
         @NotNull
         LocalDate dataPublicacao,
 
-        @NotNull(message = "campo obrigatório")
         GeneroLivro genero,
 
-        @NotNull(message = "campo obrigatório")
         BigDecimal preco,
 
         @NotNull(message = "campo obrigatório")
