@@ -6,6 +6,7 @@ import io.github.joaorooliveira.libraryapi.exceptions.OperacaoNaoPermitidaExcept
 import io.github.joaorooliveira.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.joaorooliveira.libraryapi.model.Autor;
 import io.github.joaorooliveira.libraryapi.service.AutorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,9 @@ import java.util.UUID;
 public class AutorController {
 
     private final AutorService service;
-    
+
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
 
         try {
 
@@ -44,10 +45,6 @@ public class AutorController {
         }
     }
 
-    //    @GetMapping("/{id}")
-//    public ResponseEntity<AutorDTO> buscarAutor(@PathVariable UUID id) {
-//        return ResponseEntity.ok(service.buscarAutor(id));
-//    }
     @GetMapping("/{id}")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
         var idAutor = UUID.fromString(id);
@@ -63,12 +60,6 @@ public class AutorController {
 
         return ResponseEntity.notFound().build();
     }
-
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> excluirAutor(@PathVariable UUID id) {
-//        service.excluirAutor(id);
-//        return ResponseEntity.noContent().build();
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarAutor(@PathVariable String id) {
