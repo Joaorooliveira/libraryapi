@@ -1,5 +1,6 @@
 package io.github.joaorooliveira.libraryapi.repository.specs;
 
+import io.github.joaorooliveira.libraryapi.model.GeneroLivro;
 import io.github.joaorooliveira.libraryapi.model.Livro;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -13,5 +14,9 @@ public class LivroSpecs {
         //upper(livro.titulo) like (%:param%)
         return (root, query, cb) ->
                 cb.like(cb.upper(root.get("titulo")), "%" + titulo.toUpperCase() + "%");
+    }
+
+    public static Specification<Livro> generoEqual(GeneroLivro genero) {
+        return (root, query, cb) -> cb.equal(root.get("genero"), genero);
     }
 }
