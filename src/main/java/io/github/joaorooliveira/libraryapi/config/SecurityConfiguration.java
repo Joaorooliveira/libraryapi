@@ -23,10 +23,19 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(configurer -> {
-                    configurer.loginPage("/login").permitAll();
+                    configurer.loginPage("/login");
                 })
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
+//                    authorize.requestMatchers("/login").permitAll();
+//                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasAuthority("CADASTRAR_AUTOR");
+//                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN");
+//                    authorize.requestMatchers(HttpMethod.DELETE, "/autores/**").hasRole("ADMIN");
+//                    authorize.requestMatchers(HttpMethod.PUT, "/autores/**").hasRole("ADMIN");
+//                    authorize.requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USER", "ADMIN");
+                    authorize.requestMatchers("/login/**").permitAll();
+                    authorize.requestMatchers("/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers("/livros/**").hasAnyRole("ADMIN", "USER");
                     authorize.anyRequest().authenticated();
                 })
                 .build();
