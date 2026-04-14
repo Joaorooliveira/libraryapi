@@ -3,6 +3,7 @@ package io.github.joaorooliveira.libraryapi.controller;
 import io.github.joaorooliveira.libraryapi.controller.dto.UsuarioDTO;
 import io.github.joaorooliveira.libraryapi.controller.mappers.UsuarioMapper;
 import io.github.joaorooliveira.libraryapi.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // retorno fixo 201 Created(nao dinamico)
-    public void salvar(@RequestBody UsuarioDTO dto) {
+    public void salvar(@RequestBody @Valid UsuarioDTO dto) {
         var usuario = mapper.toEntity(dto);
         service.salvar(usuario);
     }
