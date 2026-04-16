@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -38,6 +38,9 @@
                 Entrar
             </button>
         </form>
+        <br/>
+        <hr/>
+        <a th:href="@{/oauth2/authorization/google}" class="btn btn-primary w-100">Entrar com Google</a>
     </div>
 </div>
 
